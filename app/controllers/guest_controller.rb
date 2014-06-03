@@ -5,11 +5,12 @@ class GuestController < ApplicationController
   def back_code(code,msg)
     respond_to do |format|
       format.html {render text: "Error#{code.to_s}-#{msg}"}
-      format.json {render :json => {:status => {:code=>code.to_s, :message=>msg}}}
+      format.json {render :json => {:status => {:code=>code.to_s, :message=>msg,:server => "124.127.116.177" }}}
     end
   end
 
   def check_params
+    logger.info params
     if params[:username].nil? or params[:password].nil?
       back_code(101,"Missing Some Params") 
     elsif !Guest.auth_guest(params[:username],params[:password])

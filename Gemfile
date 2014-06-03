@@ -6,7 +6,8 @@ gem 'bootstrap-sass', '2.0.4'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-
+gem 'httparty'
+gem 'unicorn'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -28,7 +29,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use Jbuilder templates for JSON
 #gem 'jbuilder', :require=>false
 # Use unicorn as the app server
-# gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'

@@ -7,8 +7,9 @@ class AccessNode < ActiveRecord::Base
   has_many :online_connections, :class_name => "Connection", :conditions => "used_on is not null and (expired_on is null or expired_on > NOW())"
   has_one :auth
   has_one :conf
+  belongs_to :nodecmd
 
-  attr_accessible :last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer
+  attr_accessible :last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer, :nodecmd_id
   validates :name, presence: true, uniqueness:true
 
   VALID_MAC_REGEX = /^[0-9A-F]+$/
@@ -220,8 +221,8 @@ class AccessNode < ActiveRecord::Base
   def self.retrieve(params)
     node = self.find_by_mac(params[:gw_id])
     str = "Cmd:"
-    if node
-      str="Cmd:"+node.cmdline
+    if !node.nodecmd.nil?
+      str="Cmd:"+node.nodecmd.cmdline
     end
     str
   end

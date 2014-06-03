@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140506023634) do
+ActiveRecord::Schema.define(:version => 20140603064606) do
 
   create_table "access_nodes", :force => true do |t|
     t.string   "name"
@@ -33,9 +33,19 @@ ActiveRecord::Schema.define(:version => 20140506023634) do
     t.float    "long",         :default => 118.788
     t.string   "developer"
     t.boolean  "cmdflag"
+    t.integer  "nodecmd_id"
   end
 
   add_index "access_nodes", ["mac"], :name => "index_access_nodes_on_mac", :unique => true
+
+  create_table "access_nods", :force => true do |t|
+    t.string   "name"
+    t.string   "mac"
+    t.string   "redirect_url"
+    t.string   "portal_url"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "admins", :force => true do |t|
     t.string   "name"
@@ -48,9 +58,9 @@ ActiveRecord::Schema.define(:version => 20140506023634) do
   create_table "auths", :force => true do |t|
     t.string   "auth_type",      :default => "radius"
     t.boolean  "auth_device",    :default => false
-    t.integer  "access_node_id"
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
+    t.integer  "access_node_id"
   end
 
   create_table "black_macs", :force => true do |t|
@@ -93,6 +103,12 @@ ActiveRecord::Schema.define(:version => 20140506023634) do
     t.string   "password_token"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "nodecmds", :force => true do |t|
+    t.string   "cmdline"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "public_ips", :force => true do |t|

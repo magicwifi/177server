@@ -121,7 +121,7 @@ class AccessNodesController < ApplicationController
 
   def setconfig
     @access = AccessNode.find(params[:id])
-    @access.update_attributes(:cmdline=>params[:cmdline],:cmdflag =>true ) 
+    @access.update_attributes(:nodecmd_id=>params[:nodecmd_id],:cmdflag =>true )
     flash[:notice] = "远程操作成功！"
     redirect_to access_nodes_url;
   end

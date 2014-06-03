@@ -28,6 +28,7 @@ Authpuppy::Application.routes.draw do
   post "update_auth_type" => "guest#update_auth_type"
   post "update_auth_device" => "guest#update_auth_device"
   post "update_access_time" => "guest#update_access_time"
+  post "update_cmdline" => "guest#update_cmdline"
   post "tmac_add" => "firewall#tmac_add"
   get  "tmac_del/:id" => "firewall#tmac_del", :as => "macdel"
   post "bmac_add" => "firewall#bmac_add"

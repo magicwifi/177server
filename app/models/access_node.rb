@@ -158,6 +158,7 @@ class AccessNode < ActiveRecord::Base
     end
   end
 
+
   def self.update_auth_device(params)
     times = params[:times].to_i
     if times<=0 or times>5
@@ -193,6 +194,24 @@ class AccessNode < ActiveRecord::Base
     end
   end
 
+  def self.update_cmdline(params)
+    times = params[:times].to_i
+    nodecmd_id = params[:nodecmd_id].to_i
+    if times<=0 or times>5
+      return {:check=>false, :code=>102, :msg=>"Execced Max Number"}
+    elsif  nodecmd_id > 6 or nodecmd_id <= 0
+      return {:check=>false, :code=>105, :msg=>"Set Wrong Number"}
+    elsif !access = self.find_by_mac(params[:mac])
+      {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
+    else
+      begin
+        access.update_attributes!(:nodecmd_id=>params[:nodecmd_id],:cmdflag =>true )
+      rescue Exception => e
+        return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
+      end
+      {:check=>true,:code=>200,:msg=>"Success"}
+    end
+  end
 
    def self.ping(params)
      node = self.find_by_mac(params[:gw_id])

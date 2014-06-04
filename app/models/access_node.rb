@@ -338,5 +338,32 @@ class AccessNode < ActiveRecord::Base
     end
   end
 
+  def self.freeland(params)
+    node = self.find_by_mac(params[:gw_id])
+    if node.nil? or  params[:gw_id].nil? or params[:gw_address].nil? or params[:gw_port].nil? or params[:mac].nil? 
+      return {:check=>false, :code=>102, :msg=>"Params Not Enough"}
+    else
+      token=SecureRandom.urlsafe_base64(nil, false)
+      if !node.time_limit.nil? and node.time_limit > 0
+        login_connection = Connection.create!(:token => token,
+                                              :access_mac => params[:gw_id],
+                                              :mac => params[:mac],
+                                              :access_node_id => node.id,
+                                              :expired_on => Time.now+node.time_limit.minutes,
+                                              :portal_url => params[:url]
+                                             )
+      else
+        login_connection = Connection.create!(:token => token,
+                                              :access_mac => params[:gw_id],
+                                              :mac => params[:mac],
+                                              :access_node_id => node.id,
+                                              :expired_on => Time.now+30.minutes,
+                                              :portal_url => params[:url]
+                                             )
+      end
+      redirect_url = "http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"
+    end
+    {:check=>true, :code=>200, :msg=>redirect_url }
+  end
 end
 

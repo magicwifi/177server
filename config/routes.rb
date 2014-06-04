@@ -18,6 +18,7 @@ Authpuppy::Application.routes.draw do
   get "post/:aunnum" => "wifidog#authupdate"
   get "portal" => "user#portal"
   post "authenticate" =>"user#authenticate"
+  post "freeland" =>"user#freeland"
   get "logout/:token" =>"user#logout", :as => "offline"
   post "bindurl" =>"guest#bindurl"
   post "query_lat_long" => "access_nodes#query_lat_long"

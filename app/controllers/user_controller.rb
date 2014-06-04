@@ -27,5 +27,13 @@ class UserController < ApplicationController
     end
   end
 
+  def freeland
+    check = AccessNode.freeland params
+    unless check[:check]
+      render :text=> "Code:#{check[:code]} Msg:#{check[:msg]}"
+    else 
+      render :text=> check[:msg]
+    end
+  end
 
 end

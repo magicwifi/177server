@@ -3,7 +3,7 @@ class ConfController < ApplicationController
   before_filter :check_admin
 
   def update
-    if params[:id].nil? and params[:checkinterval].nil? and params[:authinterval].nil? and params[:clienttimeout].nil? and params[:httpmaxconn]
+    if params[:id].nil? or params[:checkinterval].nil? or params[:authinterval].nil? or params[:clienttimeout].nil? or params[:httpmaxconn].nil?
       redirect_to "/404"
       return;
     end

@@ -129,6 +129,27 @@ class AccessNode < ActiveRecord::Base
       {:check=>true, :code=>200, :msg=>"Success"}
     end
   end
+
+  def self.update_publicip(params)
+    if params[:data].nil? || params[:data].length > 5
+      {:check=>false,:code=>104, :msg=>"Data More Than Five"}
+    elsif  !access=self.find_by_mac(params[:mac])
+      {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
+    else
+      begin
+        self.transaction do
+          access.public_ips.destroy
+          params[:data].each do |object|
+            object[:access_node_id]=access.id
+            PublicIp.create!(object);
+          end
+        end
+      rescue Exception => e
+        return {:check=>false,:code=>105, :msg=>"Insert Error #{e.to_s}"}
+      end
+      {:check=>true, :code=>200, :msg=>"Success"}
+    end
+  end
   
   def self.show_connections(mac)
     access = self.find_by_mac(mac)
@@ -206,6 +227,24 @@ class AccessNode < ActiveRecord::Base
     else
       begin
         access.update_attributes!(:nodecmd_id=>params[:nodecmd_id],:cmdflag =>true )
+      rescue Exception => e
+        return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
+      end
+      {:check=>true,:code=>200,:msg=>"Success"}
+    end
+  end
+
+  def self.update_conf(params)
+    times = params[:times].to_i
+    if times<=0 or times>5
+      return {:check=>false, :code=>102, :msg=>"Execced Max Number"}
+    elsif  params[:checkinterval].nil? or params[:authinterval].nil? or params[:clienttimeout].nil? or params[:httpmaxconn].nil?
+      return {:check=>false, :code=>105, :msg=>"Less Params Error"}
+    elsif !access = self.find_by_mac(params[:mac])
+      {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
+    else
+      begin
+        access.conf.create(checkinterval:params[:checkinterval],authinterval:params[:authinterval],clienttimeout:params[:clienttimeout],httpmaxconn:params[:httpmaxconn],access_node_id => params[:id])
       rescue Exception => e
         return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
       end

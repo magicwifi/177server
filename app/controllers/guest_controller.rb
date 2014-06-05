@@ -43,6 +43,8 @@ class GuestController < ApplicationController
   define_component  :update_auth_device
   define_component  :update_access_time
   define_component  :update_cmdline
+  define_component  :update_conf
+  define_component  :update_publicip
   define_component  :bindurl
 
 end

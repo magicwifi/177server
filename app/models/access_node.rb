@@ -143,6 +143,8 @@ class AccessNode < ActiveRecord::Base
             object[:access_node_id]=access.id
             PublicIp.create!(object);
           end
+     	  access.update_attributes( :configflag => true );
+     	  access.clean_all_conn 
         end
       rescue Exception => e
         return {:check=>false,:code=>105, :msg=>"Insert Error #{e.to_s}"}
@@ -245,6 +247,8 @@ class AccessNode < ActiveRecord::Base
     else
       begin
         access.conf.update_attributes(checkinterval:params[:checkinterval],authinterval:params[:authinterval],clienttimeout:params[:clienttimeout],httpmaxconn:params[:httpmaxconn])
+     	access.update_attributes( :configflag => true );
+     	access.clean_all_conn 
       rescue Exception => e
         return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
       end

@@ -138,7 +138,7 @@ class AccessNode < ActiveRecord::Base
     else
       begin
         self.transaction do
-          access.public_ips.destroy
+          access.public_ips.delete_all
           params[:data].each do |object|
             object[:access_node_id]=access.id
             PublicIp.create!(object);
@@ -244,7 +244,7 @@ class AccessNode < ActiveRecord::Base
       {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
     else
       begin
-        access.conf.create(checkinterval:params[:checkinterval],authinterval:params[:authinterval],clienttimeout:params[:clienttimeout],httpmaxconn:params[:httpmaxconn],access_node_id => access.id )
+        access.conf.update_attributes(checkinterval:params[:checkinterval],authinterval:params[:authinterval],clienttimeout:params[:clienttimeout],httpmaxconn:params[:httpmaxconn])
       rescue Exception => e
         return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
       end

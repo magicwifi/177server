@@ -244,7 +244,7 @@ class AccessNode < ActiveRecord::Base
       {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
     else
       begin
-        access.conf.create(checkinterval:params[:checkinterval],authinterval:params[:authinterval],clienttimeout:params[:clienttimeout],httpmaxconn:params[:httpmaxconn],access_node_id => params[:id])
+        access.conf.create(checkinterval:params[:checkinterval],authinterval:params[:authinterval],clienttimeout:params[:clienttimeout],httpmaxconn:params[:httpmaxconn],access_node_id => access.id )
       rescue Exception => e
         return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
       end

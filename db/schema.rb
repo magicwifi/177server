@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140603064606) do
+ActiveRecord::Schema.define(:version => 20140606084235) do
 
   create_table "access_nodes", :force => true do |t|
     t.string   "name"
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(:version => 20140603064606) do
     t.string   "portal_url"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "addresses", :force => true do |t|
+    t.string   "province"
+    t.string   "city"
+    t.string   "district"
+    t.string   "detail"
+    t.integer  "access_node_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "admins", :force => true do |t|

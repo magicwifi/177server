@@ -46,5 +46,6 @@ class GuestController < ApplicationController
   define_component  :update_conf
   define_component  :update_publicip
   define_component  :bindurl
+  define_component  :create_address
 
 end

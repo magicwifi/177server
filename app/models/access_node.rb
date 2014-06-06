@@ -7,6 +7,7 @@ class AccessNode < ActiveRecord::Base
   has_many :online_connections, :class_name => "Connection", :conditions => "used_on is not null and (expired_on is null or expired_on > NOW())"
   has_one :auth
   has_one :conf
+  has_one :address
   belongs_to :nodecmd
 
   attr_accessible :last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer, :nodecmd_id
@@ -255,6 +256,22 @@ class AccessNode < ActiveRecord::Base
       {:check=>true,:code=>200,:msg=>"Success"}
     end
   end
+
+  def self.create_address(params)
+    if  params[:city].nil? or params[:province].nil? or params[:district].nil? or params[:detail].nil?
+      return {:check=>false, :code=>105, :msg=>"Less Params Error"}
+    elsif !access = self.find_by_mac(params[:mac])
+      {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
+    else
+      begin
+        Address.create!(city:params[:city],province:params[:province],distinct:params[:distinct],detail:params[:detail],access_node_id:access.id)
+      rescue Exception => e
+        return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
+      end
+      {:check=>true,:code=>200,:msg=>"Success"}
+    end
+  end
+
 
    def self.ping(params)
      node = self.find_by_mac(params[:gw_id])

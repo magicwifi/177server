@@ -32,6 +32,7 @@ Authpuppy::Application.routes.draw do
   post "update_cmdline" => "guest#update_cmdline"
   post "update_conf" => "guest#update_conf"
   post "update_publicip" => "guest#update_publicip"
+  post "create_address" => "guest#create_address"
   post "tmac_add" => "firewall#tmac_add"
   get  "tmac_del/:id" => "firewall#tmac_del", :as => "macdel"
   post "bmac_add" => "firewall#bmac_add"

@@ -264,7 +264,7 @@ class AccessNode < ActiveRecord::Base
       {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
     else
       begin
-        Address.create!(city:params[:city],province:params[:province],distinct:params[:distinct],detail:params[:detail],access_node_id:access.id)
+        Address.create!(city:params[:city],province:params[:province],district:params[:district],detail:params[:detail],access_node_id:access.id)
       rescue Exception => e
         return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
       end

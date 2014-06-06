@@ -5,7 +5,7 @@ class GuestController < ApplicationController
   def back_code(code,msg)
     respond_to do |format|
       format.html {render text: "Error#{code.to_s}-#{msg}"}
-      format.json {render :json => {:status => {:code=>code.to_s, :message=>msg,:server => "124.127.116.177" }}}
+      format.json {render :json => {:status => {:code=>code.to_s, :message=>msg,:server => "124.127.116.181" }}}
     end
   end
 
